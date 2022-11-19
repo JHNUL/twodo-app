@@ -1,0 +1,26 @@
+
+.todoTableContainer {
+  width: 66%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.todoAddIconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.separator {
+  width: 100%;
+  height: 16px;
+}
+
+.logoutButtonContainer {
+  display: flex;
+  align-self: flex-end;
+}
