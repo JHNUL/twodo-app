@@ -14,7 +14,7 @@ const todoRoutes = async (fastify: FastifyInstance) => {
   });
 
   fastify.get<{ Params: { id: string } }>('/todo/:id', async (request) => {
-    return await fastify.todoService.get(parseInt(request.params.id));
+    return await fastify.todoService.get(request.params.id);
   });
 
   const schema = {

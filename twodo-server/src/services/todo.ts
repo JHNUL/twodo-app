@@ -3,7 +3,7 @@ import { ITodoRepository } from '../repositories/todo';
 
 interface ITodoService {
   getAll: (userId: number) => Promise<Todo[]>;
-  get: (id: number) => Promise<Todo>;
+  get: (id: string) => Promise<Todo[]>;
   createNew: (todo: Todo) => Promise<Todo>;
   edit: (todo: Todo) => Promise<Todo>;
   delete: (id: number) => Promise<boolean>;
@@ -19,7 +19,7 @@ class TodoService implements ITodoService {
     return this.todoRepository.getAll(userId);
   }
 
-  async get(id: number) {
+  async get(id: string) {
     return this.todoRepository.get(id);
   }
 

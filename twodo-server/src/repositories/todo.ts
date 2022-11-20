@@ -3,7 +3,7 @@ import { Todo } from '../interfaces';
 
 export interface ITodoRepository {
   getAll: (userId: number) => Promise<Todo[]>;
-  get: (id: number) => Promise<Todo>;
+  get: (id: string) => Promise<Todo[]>;
   add: (todo: Todo) => Promise<Todo>;
   edit: (todo: Todo) => Promise<Todo>;
   delete: (id: number) => Promise<boolean>;
@@ -31,18 +31,18 @@ class TodoRepository implements ITodoRepository {
     });
   }
 
-  async get(id: number) {
-    return new Promise<Todo>((resolve, reject) => {
-      this.db.get(
+  // 1) SQL injection vulnerability
+  async get(id: string) {
+    return new Promise<Todo[]>((resolve, reject) => {
+      this.db.all(
         `SELECT T.id, T.name, S.name as status, T.created_at, T.updated_at
          FROM Todos T
          LEFT JOIN Todostatus S
          ON S.code = T.status
-         WHERE T.id = (?);`,
-        [id],
-        (err: Error, row: any) => {
+         WHERE T.id = ${id};`, // This is mitigated by using parametrization
+        (err: Error, rows: Array<Todo>) => {
           if (err) reject(err);
-          resolve(row);
+          resolve(rows);
         }
       );
     });
@@ -59,7 +59,8 @@ class TodoRepository implements ITodoRepository {
         }
       );
     });
-    return this.get(newRowId);
+    const addedRows = await this.get(newRowId.toString());
+    return addedRows[0];
   }
 
   async edit(todo: Todo) {
@@ -78,7 +79,8 @@ class TodoRepository implements ITodoRepository {
         }
       );
     });
-    return this.get(todo.id);
+    const editedRows = await this.get(todo.id.toString());
+    return editedRows[0];
   }
 
   async delete(id: number) {
