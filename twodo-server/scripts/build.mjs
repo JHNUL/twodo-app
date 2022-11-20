@@ -35,7 +35,7 @@ const packageJson = JSON.parse(readFileSync(packageFilePath));
 await within(async () => {
   cd('../twodo-ui');
   await $`yarn install --frozen-lockfile`;
-  await $`yarn build`;
+  await $`yarn build`.quiet();
   console.log(chalk.greenBright('--- UI build successful'));
 });
 

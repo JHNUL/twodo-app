@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Cyber security course assignment I backend",
   "main": "dist/index.js",
   "engines": {

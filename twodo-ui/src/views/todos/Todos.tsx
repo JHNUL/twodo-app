@@ -22,6 +22,7 @@ import {
   getTodosThunk,
   Todo,
   TodoStatus,
+  clean as cleanTodos,
 } from "../../app/todoSlice";
 import AddTodo from "./AddTodo";
 import EditTodo from "./EditTodo";
@@ -48,7 +49,7 @@ const Todos: React.FC = () => {
       try {
         await dispatch(getTodosThunk()).unwrap();
       } catch (error: any) {
-        if (error.name !== 'ConditionError') {
+        if (error.name !== "ConditionError") {
           console.error(error);
         }
         if (error?.code === "401") {
@@ -57,6 +58,9 @@ const Todos: React.FC = () => {
       }
     };
     fetchAllTodos();
+    return () => {
+      dispatch(cleanTodos());
+    };
   }, []); // eslint-disable-line
 
   const onAddTodo = (e: React.SyntheticEvent) => {
@@ -157,7 +161,8 @@ const Todos: React.FC = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  <div dangerouslySetInnerHTML={{__html: row.name}}/> {/* 4) unescaped user input rendered as html */}
+                  <div dangerouslySetInnerHTML={{ __html: row.name }} />{" "}
+                  {/* 4) unescaped user input rendered as html */}
                 </TableCell>
                 <TableCell align="left">{row.status}</TableCell>
                 <TableCell align="left">
