@@ -26,7 +26,7 @@ class UserService implements IUserService {
 
   async register(username: string, password: string) {
     const passwordhash = await bcrypt.hash(password, config.SALT_ROUNDS);
-    return await this.userRepository.add(username, passwordhash);
+    return this.userRepository.add(username, passwordhash);
   }
 
   async login(username: string, password: string) {

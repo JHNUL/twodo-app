@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { addNewTodo, editTodo, getTodos } from "./todoAPI";
+import { addNewTodo, deleteTodo, editTodo, getTodos } from "./todoAPI";
 
 export type TodoStatus = "not started" | "in progress" | "done";
 
@@ -44,7 +44,19 @@ export const editTodoThunk = createAsyncThunk(
   }
 );
 
-export const getTodosThunk = createAsyncThunk<Promise<void>, undefined, { state: RootState }>(
+export const deleteTodoThunk = createAsyncThunk(
+  "todos/delete",
+  async (id: number, thunkApi) => {
+    await deleteTodo(id);
+    thunkApi.dispatch(removeTodo({ id }));
+  }
+);
+
+export const getTodosThunk = createAsyncThunk<
+  Promise<void>,
+  undefined,
+  { state: RootState }
+>(
   "todos/get",
   async (_, thunkApi) => {
     const todos = await getTodos();
@@ -52,8 +64,10 @@ export const getTodosThunk = createAsyncThunk<Promise<void>, undefined, { state:
   },
   {
     condition: (_, thunkApi) => {
-      const { todos: { status } } = thunkApi.getState();
-      if (status === 'loading') {
+      const {
+        todos: { status },
+      } = thunkApi.getState();
+      if (status === "loading") {
         return false;
       }
     },
@@ -72,6 +86,9 @@ export const todoSlice = createSlice({
     },
     addTodo: (state, action: PayloadAction<Todo>) => {
       state.data.push(action.payload);
+    },
+    removeTodo: (state, action: PayloadAction<{ id: number }>) => {
+      state.data = state.data.filter((t) => t.id !== action.payload.id);
     },
     replaceTodo: (state, action: PayloadAction<Todo>) => {
       state.data.forEach((todo, idx, data) => {
@@ -109,10 +126,11 @@ export const todoSlice = createSlice({
       })
       .addCase(getTodosThunk.rejected, (state) => {
         state.status = "error";
-      })
+      });
   },
 });
 
-export const { clean, setAllTodos, addTodo, replaceTodo } = todoSlice.actions;
+export const { clean, setAllTodos, addTodo, replaceTodo, removeTodo } =
+  todoSlice.actions;
 
 export default todoSlice.reducer;

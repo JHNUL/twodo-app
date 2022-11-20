@@ -1,8 +1,8 @@
 import { EditTodoParams, Todo } from "./todoSlice";
 
-const getHeaders = () => {
+const getHeaders = (includeContentType = true) => {
   const requestHeaders = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
+  if (includeContentType) requestHeaders.set("Content-Type", "application/json");
   requestHeaders.set("Accept", "application/json");
   return requestHeaders;
 };
@@ -42,7 +42,16 @@ export const editTodo = async ({
 };
 
 export const getTodos = async (): Promise<Todo[]> => {
-  const res = await fetch("/api/todo", { headers: getHeaders() });
+  const res = await fetch("/api/todo", { headers: getHeaders(false) });
+  await checkResponse(res);
+  return res.json();
+};
+
+export const deleteTodo = async (id: number): Promise<any> => {
+  const res = await fetch(`/api/todo/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(false),
+  });
   await checkResponse(res);
   return res.json();
 };

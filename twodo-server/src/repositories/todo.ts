@@ -6,6 +6,7 @@ export interface ITodoRepository {
   get: (id: number) => Promise<Todo>;
   add: (todo: Todo) => Promise<Todo>;
   edit: (todo: Todo) => Promise<Todo>;
+  delete: (id: number) => Promise<boolean>;
 }
 
 class TodoRepository implements ITodoRepository {
@@ -78,6 +79,19 @@ class TodoRepository implements ITodoRepository {
       );
     });
     return this.get(todo.id);
+  }
+
+  async delete(id: number) {
+    return await new Promise<boolean>((resolve, reject) => {
+      this.db.run(
+        `DELETE FROM Todos WHERE id = ?;`,
+        [id],
+        (err: Error | null) => {
+          if (err) reject(err);
+          resolve(true);
+        }
+      );
+    });
   }
 }
 

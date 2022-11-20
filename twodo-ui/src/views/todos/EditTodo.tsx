@@ -77,7 +77,7 @@ const EditTodo: React.FC<EditTodoProps> = ({
         </Typography>
       )}
       <DialogActions>
-        <Button variant="contained" onClick={onCancel} disabled={isDisabled}>
+        <Button variant="contained" onClick={onCancel}>
           Cancel
         </Button>
         <Button

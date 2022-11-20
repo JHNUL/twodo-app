@@ -32,15 +32,27 @@ const todoRoutes = async (fastify: FastifyInstance) => {
     },
   };
 
-  fastify.post<{ Body: Todo }>('/todo', { schema }, async (request) => {
+  fastify.post<{ Body: Todo }>('/todo', { schema }, async (request, reply) => {
     const payload = { ...request.body, user_id: request.session.user_id };
-    return await fastify.todoService.createNew(payload);
+    const res = await fastify.todoService.createNew(payload);
+    return reply.code(201).send(res);
   });
 
-  fastify.put<{ Body: Todo }>('/todo', { schema }, async (request) => {
+  fastify.put<{ Body: Todo }>('/todo', { schema }, async (request, reply) => {
     const payload = { ...request.body, user_id: request.session.user_id };
-    return await fastify.todoService.edit(payload);
+    const res = await fastify.todoService.edit(payload);
+    return reply.code(200).send(res);
   });
+
+  fastify.delete<{ Params: { id: string } }>(
+    '/todo/:id',
+    async (request, reply) => {
+      await fastify.todoService.delete(parseInt(request.params.id));
+      return reply
+        .code(200)
+        .send({ message: `deleted todo with id ${request.params.id}` });
+    }
+  );
 };
 
 export default todoRoutes;
