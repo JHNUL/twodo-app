@@ -31,7 +31,6 @@ class TodoRepository implements ITodoRepository {
     });
   }
 
-  // 1) SQL injection vulnerability
   async get(id: string) {
     return new Promise<Todo[]>((resolve, reject) => {
       this.db.all(
@@ -39,7 +38,7 @@ class TodoRepository implements ITodoRepository {
          FROM Todos T
          LEFT JOIN Todostatus S
          ON S.code = T.status
-         WHERE T.id = ${id};`, // This is mitigated by using parametrization
+         WHERE T.id = ${id};`, // 1) SQL injection vulnerability
         (err: Error, rows: Array<Todo>) => {
           if (err) reject(err);
           resolve(rows);

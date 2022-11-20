@@ -157,7 +157,7 @@ const Todos: React.FC = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  <div dangerouslySetInnerHTML={{__html: row.name}}/> {/* 4) unescaped user input rendered as html */}
                 </TableCell>
                 <TableCell align="left">{row.status}</TableCell>
                 <TableCell align="left">

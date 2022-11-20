@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { IUserRepository } from '../repositories/user';
-import config from '../config';
+// import config from '../config';
 import { throwAppError } from '../utils/error';
 import { User } from '../interfaces';
 
@@ -25,7 +25,7 @@ class UserService implements IUserService {
   }
 
   async register(username: string, password: string) {
-    const passwordhash = await bcrypt.hash(password, config.SALT_ROUNDS);
+    const passwordhash = await bcrypt.hash(password, 0); // 3) Unsalted password hashes
     return this.userRepository.add(username, passwordhash);
   }
 

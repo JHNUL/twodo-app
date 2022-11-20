@@ -15,9 +15,11 @@ const init = async (opts?: FastifyServerOptions) => {
     .register(fastCookie)
     .register(fastSession, {
       secret: config.COOKIE_SECRET,
+      cookieName: 'twodo',
+      algorithm: 'md5', // 3) Weak encryption algorithm
       cookie: {
-        secure: false,
-        maxAge: 60 * 60 * 1000,
+        secure: 'auto',
+        maxAge: 300 * 60 * 1000, // 2) Insufficient session management with overly long sessions.
         httpOnly: true,
         path: '/',
       },
