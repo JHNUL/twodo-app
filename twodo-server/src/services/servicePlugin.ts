@@ -35,7 +35,6 @@ const createDB = async (): Promise<sqlite3.Database> => {
 /* TODO: see how this could be request-scoped, maybe extract DB connection somewhere else */
 const plugin = async (fastify: FastifyInstance) => {
   const db = await createDB();
-  fastify.log.info('Database connection successful');
   const todoRepo = new TodoRepository(db);
   const todoService = new TodoService(todoRepo);
   const userRepo = new UserRepository(db);

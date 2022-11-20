@@ -28,16 +28,14 @@ const init = async (opts?: FastifyServerOptions) => {
     .register(servicePlugin)
     .register(todoRoute, { prefix: '/api' })
     .register(userRoute, { prefix: '/api' })
-    .register(healthRoute, { prefix: '/api' });
-
-  fastify.setNotFoundHandler(async (_, reply) => {
-    return reply.sendFile('index.html');
-  });
-
-  fastify.setErrorHandler((error, _request, reply) => {
-    fastify.log.error(error);
-    reply.status(error.statusCode || 500).send({ message: error.message });
-  });
+    .register(healthRoute, { prefix: '/api' })
+    .setNotFoundHandler(async (_, reply) => {
+      return reply.sendFile('index.html');
+    })
+    .setErrorHandler((error, _, reply) => {
+      fastify.log.error(error);
+      reply.status(error.statusCode || 500).send({ message: error.message });
+    });
   return fastify;
 };
 
