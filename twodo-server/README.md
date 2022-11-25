@@ -26,8 +26,9 @@ Steps:
 1) Install the current LTS version of [Node.js](https://nodejs.org/en/) for your platform.
 2) Install [yarn](https://classic.yarnpkg.com/en/) package manager.
 3) Clone the twodo-app repository, `cd` to twodo-server in your terminal.
-4) Run `yarn install`.
-5) Run `yarn initdb`.
-6) Run `yarn start:withUi`.
+4) Copy `.env.example` file as `.env`.
+5) Run `yarn install`.
+6) Run `yarn initdb`.
+7) Run `yarn start:withUi`.
 
 The `start:withUi` script will package the browser-side of the application from the adjacent twodo-ui project and start the server. It will download all the needed dependencies for a create-react-app, which is quite a lot, so it might take some time. Once the javascript tooling has done its thing, the app should be accessible from `http://localhost:3001`.
