@@ -46,6 +46,15 @@ const Login: React.FC = () => {
     }
   };
 
+  const submitButtonDisabled = (): boolean => {
+    const isLoading = status === "loading";
+    let invalidFields = !username || !password;
+    if (!!isRegister) {
+      invalidFields = invalidFields || !passwordConfirm || !!matchText;
+    }
+    return isLoading || invalidFields;
+  };
+
   const onChangeValue = (
     value: string,
     field: "username" | "password" | "confirm"
@@ -134,7 +143,7 @@ const Login: React.FC = () => {
             variant="contained"
             id="loginSubmit"
             onClick={onLoginSubmit}
-            disabled={status === "loading" || (!!isRegister && !!matchText)}
+            disabled={submitButtonDisabled()}
           >
             Submit
           </Button>
