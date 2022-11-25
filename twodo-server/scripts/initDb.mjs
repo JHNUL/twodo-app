@@ -3,9 +3,14 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 sqlite3.verbose();
+const isTest = process.env.NODE_ENV === 'test';
 
 const db = new sqlite3.Database(
-  join(dirname(fileURLToPath(import.meta.url)), '..', 'db.sqlite')
+  join(
+    dirname(fileURLToPath(import.meta.url)),
+    '..',
+    `db.${isTest ? 'test.' : '.'}sqlite`
+  )
 );
 
 const dropUsers = `DROP TABLE IF EXISTS Users;`;
@@ -49,18 +54,15 @@ db.serialize(() => {
     db.run(cmd);
   }
 
-  const statuses = new Map();
-  statuses.set(1, 'not started');
-  statuses.set(2, 'in progress');
-  statuses.set(3, 'done');
+  const statuses = ['', 'not started', 'in progress', 'done'];
   const statement = db.prepare(
     'INSERT INTO Todostatus(code, name) VALUES (?,?);'
   );
   for (let i = 1; i < 4; i++) {
-    statement.run([i, statuses.get(i)]);
+    statement.run([i, statuses[i]]);
   }
   statement.finalize();
-  console.log('Database initialized!');
+  console.log(`Database initialized${isTest ? ' for tests' : ''}!`);
 });
 
 db.close();

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "tap --ts --no-coverage",
+    "test": "cross-env NODE_ENV=test yarn initdb && cross-env NODE_ENV=test tap --ts --no-coverage",
     "prettify": "prettier --write ./src",
     "lint": "eslint ./src",
     "start": "yarn build && node dist/index.js",
@@ -35,6 +35,7 @@
     "@types/webpack": "5.28.0",
     "@typescript-eslint/eslint-plugin": "5.43.0",
     "@typescript-eslint/parser": "5.43.0",
+    "cross-env": "7.0.3",
     "eslint": "8.28.0",
     "prettier": "2.7.1",
     "tap": "16.3.2",
