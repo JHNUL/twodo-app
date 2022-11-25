@@ -1,5 +1,13 @@
 # Vulnerable TODO app
 
+Assignment for University of Helsinki Cyber Security course part 1.
+
+## How to run
+
+See the README in twodo-server folder.
+
+## List of vulnerabilities
+
 Demonstrated vulnerabilities from the owasp 2017 list https://owasp.org/www-project-top-ten/2017/
 
 1) https://owasp.org/www-project-top-ten/2017/A1_2017-Injection.html

@@ -10,4 +10,9 @@ RUN yarn install --silent --production --frozen-lockfile\
   && yarn cache clean\
   && node scripts/initDb.mjs
 
+ENV PORT=3001
+ENV HOST='0.0.0.0'
+ENV SALT_ROUNDS=2
+ENV COOKIE_SECRET='something longer than 32 characters'
+
 CMD ["node", "dist/index.js"]
