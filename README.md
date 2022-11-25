@@ -14,9 +14,7 @@ Demonstrated vulnerabilities from the owasp 2017 list https://owasp.org/www-proj
 
 Discovering that the application makes requests to '/api/todo', an attacker could try
 a GET request with an injection '/api/todo/1 or true'. This will return all todos in
-the database. Actually this API is bad in other ways as well because even without the
-injection capability it would produce any existing todo regardless of whose it is.
-So there is a little of broken authentication or the like thrown in here.
+the database.
 
 How to test: Create two users, log in with user A and create a couple of todos. Then
 log in with user B and without creating any todos, append '/api/todo/1 or true'
@@ -27,6 +25,7 @@ as JSON.
 twodo-server/src/repositories/todo.ts#get()
 
 FIX: parameterization of input data to SQL queries
+![vulnerability1](/images/vulnerability1.png)
 
 2) https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication.html
 
@@ -44,6 +43,7 @@ FIX: shorter maxAge for session, e.g. 15mins (depending on the application).
 The session is refreshed on every request, so when the user is "active" on
 the application, they won't be logged out in a disruptive way but leaving the
 computer without logging out is safer.
+![vulnerability2](/images/vulnerability2.png)
 
 3) https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure.html
 
@@ -55,6 +55,9 @@ twodo-server/src/app.ts#init()
 How to test: check from code.
 
 FIX: Use current and secure encryption algorithms and salt rounds when generating pw hashes.
+![vulnerability3a](/images/vulnerability3_1.png)
+![vulnerability3b](/images/vulnerability3_2.png)
+
 
 4) https://owasp.org/www-project-top-ten/2017/A7_2017-Cross-Site_Scripting_(XSS).html
 
@@ -68,6 +71,7 @@ FIX: The way this vulnerability is demonstrated is specific to the UI library us
 the application (React.js). To fix this, one should not use dangerouslySetInnerHTML
 to begin with. However, if there is a use case for it care must be taken that it is not
 used with any untrusted data.
+![vulnerability4](/images/vulnerability4.png)
 
 5) https://owasp.org/www-project-top-ten/2017/A10_2017-Insufficient_Logging%2526Monitoring.html
 
@@ -78,4 +82,5 @@ monitored for performance or usage patterns.
 twodo-server/src/index.ts#start()
 
 FIX: Enable logging. Take into use some monitoring service (if the service was really deployed).
+![vulnerability5](/images/vulnerability5.png)
 
