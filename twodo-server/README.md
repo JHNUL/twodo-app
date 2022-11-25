@@ -8,7 +8,7 @@ Backend for the vulnerable twodo-app.
 
 ### Option 1: Docker
 
-Running the application from a ready-built container gets rid of the need to install any application-specific dependencies locally. What is needed is the docker container runtime for your platform. Install instructions are found at the [docker website](https://docs.docker.com/get-docker/).
+Running the application from a ready-built container gets rid of the need to install any application-specific dependencies locally. You only need the docker container runtime for your platform. Instructions how to install can be found at the [docker website](https://docs.docker.com/get-docker/).
 
 Steps:
 1) Install docker as instructed at the website, check that it works.
