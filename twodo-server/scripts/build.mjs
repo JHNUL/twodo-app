@@ -51,7 +51,7 @@ await $`mkdir ./html`;
 await $`cp -r ../twodo-ui/build/* ./html`;
 
 if (!startLocallyWithUi) {
-  await $`docker build -t twodo-server:${packageJson.version} .`;
+  await $`docker build -t twodo-app:${packageJson.version} .`;
   console.log(chalk.greenBright('--- Container image build successful'));
 } else {
   console.log(chalk.greenBright('--- Project built locally'));
