@@ -47,7 +47,10 @@ const todoRoutes = async (fastify: FastifyInstance) => {
   fastify.delete<{ Params: { id: string } }>(
     '/todo/:id',
     async (request, reply) => {
-      await fastify.todoService.delete(parseInt(request.params.id));
+      await fastify.todoService.delete(
+        parseInt(request.params.id),
+        request.session.user_id
+      );
       return reply
         .code(200)
         .send({ message: `deleted todo with id ${request.params.id}` });

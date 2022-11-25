@@ -6,7 +6,7 @@ interface ITodoService {
   get: (id: string) => Promise<Todo[]>;
   createNew: (todo: Todo) => Promise<Todo>;
   edit: (todo: Todo) => Promise<Todo>;
-  delete: (id: number) => Promise<boolean>;
+  delete: (id: number, user_id: number) => Promise<boolean>;
 }
 
 class TodoService implements ITodoService {
@@ -31,8 +31,8 @@ class TodoService implements ITodoService {
     return this.todoRepository.edit(todo);
   }
 
-  async delete(id: number) {
-    return this.todoRepository.delete(id);
+  async delete(id: number, user_id: number) {
+    return this.todoRepository.delete(id, user_id);
   }
 }
 

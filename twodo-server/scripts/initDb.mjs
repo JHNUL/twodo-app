@@ -9,7 +9,7 @@ const db = new sqlite3.Database(
   join(
     dirname(fileURLToPath(import.meta.url)),
     '..',
-    `db.${isTest ? 'test.' : '.'}sqlite`
+    `db.${isTest ? 'test.' : ''}sqlite`
   )
 );
 

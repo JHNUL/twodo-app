@@ -6,7 +6,7 @@ export interface ITodoRepository {
   get: (id: string) => Promise<Todo[]>;
   add: (todo: Todo) => Promise<Todo>;
   edit: (todo: Todo) => Promise<Todo>;
-  delete: (id: number) => Promise<boolean>;
+  delete: (id: number, user_id: number) => Promise<boolean>;
 }
 
 class TodoRepository implements ITodoRepository {
@@ -70,8 +70,9 @@ class TodoRepository implements ITodoRepository {
           name = ?,
           status = (SELECT S.code FROM Todostatus S WHERE S.name = ?),
           updated_at = ?
-         WHERE Todos.id = ?;`,
-        [todo.name, todo.status, new Date().toISOString(), todo.id],
+         WHERE Todos.id = ?
+         AND Todos.user_id = ?;`,
+        [todo.name, todo.status, new Date().toISOString(), todo.id, todo.user_id],
         function (err: Error | null) {
           if (err) reject(err);
           resolve(this.lastID);
@@ -82,11 +83,11 @@ class TodoRepository implements ITodoRepository {
     return editedRows[0];
   }
 
-  async delete(id: number) {
+  async delete(id: number, user_id: number) {
     return await new Promise<boolean>((resolve, reject) => {
       this.db.run(
-        `DELETE FROM Todos WHERE id = ?;`,
-        [id],
+        `DELETE FROM Todos WHERE id = ? AND user_id = ?;`,
+        [id, user_id],
         (err: Error | null) => {
           if (err) reject(err);
           resolve(true);
