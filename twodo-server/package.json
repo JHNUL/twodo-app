@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "test": "tap --reporter=list --ts",
+    "test": "tap --ts --no-coverage",
     "prettify": "prettier --write ./src",
     "lint": "eslint ./src",
     "start": "yarn build && node dist/index.js",
