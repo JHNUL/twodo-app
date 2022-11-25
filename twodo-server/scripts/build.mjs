@@ -32,10 +32,13 @@ if (!existsSync(uiPackagePath)) {
 
 const packageJson = JSON.parse(readFileSync(packageFilePath));
 
+const startLocallyWithUi =
+  process.argv.length > 2 && process.argv[2] === '--ui';
+
 await within(async () => {
   cd('../twodo-ui');
   await $`yarn install --frozen-lockfile`;
-  await $`yarn build`.quiet();
+  await $`yarn build`;
   console.log(chalk.greenBright('--- UI build successful'));
 });
 
@@ -46,5 +49,11 @@ console.log(chalk.greenBright('--- Server build successful'));
 await $`rm -rf ./html`;
 await $`mkdir ./html`;
 await $`cp -r ../twodo-ui/build/* ./html`;
-await $`docker build -t twodo-server:${packageJson.version} .`;
-console.log(chalk.greenBright('--- Container image build successful'));
+
+if (!startLocallyWithUi) {
+  await $`docker build -t twodo-server:${packageJson.version} .`;
+  console.log(chalk.greenBright('--- Container image build successful'));
+} else {
+  console.log(chalk.greenBright('--- Project built locally'));
+  await $`node dist/index.js`;
+}

@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Cyber security course assignment I backend",
+  "description": "Cyber security course assignment 1 backend",
   "main": "dist/index.js",
   "engines": {
     "node": ">=18"
@@ -12,7 +12,8 @@
     "prettify": "prettier --write ./src",
     "lint": "eslint ./src",
     "start": "yarn build && node dist/index.js",
-    "initdb": "node scripts/initDb.js"
+    "start:withUi": "node scripts/build.mjs --ui",
+    "initdb": "node scripts/initDb.mjs"
   },
   "author": "juhani.riisio@gmail.com",
   "license": "ISC",
@@ -25,7 +26,6 @@
     "dotenv": "16.0.3",
     "fastify": "4.10.0",
     "fastify-plugin": "4.3.0",
-    "rimraf": "3.0.2",
     "sqlite3": "5.1.2"
   },
   "devDependencies": {
