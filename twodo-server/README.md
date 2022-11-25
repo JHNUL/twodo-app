@@ -14,7 +14,7 @@ Steps:
 1) Install docker as instructed at the website, check that it works.
 2) Run the following spell in your terminal.
 
-`docker run -p 127.0.0.1:8088:3001/tcp juhanir/twodo-app:1.0.0`
+`docker run -p 127.0.0.1:8088:3001/tcp juhanir/twodo-app:1.0.1`
 
 This will first pull the twodo-app image from docker hub registry, then run a container from the image with port 3001 inside the container bound to port 8088 on the host. The host port can be anything that's in the available range, change it if needed. The app is then accessible from the browser at `http://localhost:8088`, the port being 8088 in the example case.
 
