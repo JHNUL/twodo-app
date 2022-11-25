@@ -4,7 +4,7 @@ Assignment for University of Helsinki Cyber Security course part 1.
 
 ## How to run
 
-See the README in twodo-server folder.
+See the [README](/twodo-server/README.md) in twodo-server folder.
 
 ## List of vulnerabilities
 
@@ -20,7 +20,7 @@ So there is a little of broken authentication or the like thrown in here.
 
 How to test: Create two users, log in with user A and create a couple of todos. Then
 log in with user B and without creating any todos, append '/api/todo/1 or true'
-to the url in the browser (e.g. "http://localhost:3001/api/todo/1 or true") and hit enter.
+to the url in the browser (e.g. "http://localhost:8088/api/todo/1 or true") and hit enter.
 There is no html page for that route, but the browser should show all of user A's todos
 as JSON.
 
@@ -61,6 +61,8 @@ FIX: Use current and secure encryption algorithms and salt rounds when generatin
 The application or API includes unvalidated and unescaped user input as part of HTML output.
 
 twodo-ui/src/views/todos/Todos.tsx
+
+How to test: Create a todo with name `<strong>TORRDOOO!</strong>`. You should see that the rendered name in the table of todos is bolded.
 
 FIX: The way this vulnerability is demonstrated is specific to the UI library used in
 the application (React.js). To fix this, one should not use dangerouslySetInnerHTML
